@@ -3,25 +3,23 @@ import './App.css';
 import clocklogo from './favicon.ico';
 function App() {
   return (
-    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', padding:'20px', height:'100vh'}} className="App">
-      <header className="App-header">
-        <img src={clocklogo} style={{height:'60px',marginLeft:'20px',}}> 
-        </img>
-  
-        <p style={{marginLeft:'20px'}}>
+    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', height:'450px', width:'800px'}} className="App">
+      <header className="App-header" style={{marginLeft:'10px'}}>     
+        <img src={clocklogo} style={{height:'30px'}}> 
+        </img>  
+        <strong style={{marginLeft:'10px'}}>
           Time Crunch
-        </p>
+        </strong> 
       </header>
-      <body style={{backgroundColor:'#2f70d1'}}>
-        <div style={{marginLeft:'20px', display: 'flex', flexdirection: 'row'}} >
-          <div className="Box-div" style={{height:'100px', width:'300px'}}>yo</div>
-          <div className="circle-div" style={{height:'100px',width:'100px'}}>oy</div>
-          <div className="rounded-div" style={{height:'100px', width:'300px'}}>yo</div>
-          <div className="stats-div" >oy</div>
-          <div className="Box-div" style={{height:'100px', width:'300px'}}>  
-            <div className="lightbox-div" style={{height:'80px', width:'240px'}}>yo</div>
-          </div>
-          
+      <body style={{backgroundColor:'#2f70d1',marginLeft:'10px'}}>
+        <div style={{ display: 'flex',  height:'100px'}} >
+          <div className="lightbox-div">
+            <div className= "lightbox-div" style={{width:'210px',flexDirection:'column'}}>
+              <div className="Box-div" style={{height:'50px', width:'100%'}}></div>
+              <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
+            </div>
+            <div className= "Box-div" style={{width:'430px', height:'100%', marginLeft:'20px'}}>ah</div>
+          </div> 
         </div>
       </body>
     </div>
