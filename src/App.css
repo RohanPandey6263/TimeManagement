@@ -1,0 +1,94 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #2f70d1;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+}
+.Box-div {
+  background-color: #15325e;
+  border-radius: 10px ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+  margin-left:10px ;
+}
+.circle-div {
+  background-color: #15325e;
+  border-radius: 50% ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+  margin-left:10px ;
+}
+.rounded-div {
+  background-color: #15325e;
+  border-radius: 1000000px ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+  margin-left:10px ;
+}
+.stats-div {
+  background-color: #ff8800;
+  border-radius: 1000px ;
+  display: flex;
+  flex-direction: row;
+  height: 13px;
+  width: 30px;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+  margin-left:10px ;
+}
+.lightbox-div {
+  background-color:#2f70d1;
+  border-radius: 10px ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+  margin-left:30px ;
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
