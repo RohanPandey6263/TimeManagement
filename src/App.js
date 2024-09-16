@@ -32,7 +32,7 @@ function App() {
                 Upcoming
                 <div className="lightbox-div" style={{float:'right', marginRight:'10px',height:'20px',fontSize:'13px',padding:'5px'}}>View Details -> </div>
                 <div className="Box-div" style={{height:'80px', width:'100%', flexDirection:'row',marginTop:'15px',}}>
-                  {schedules.filter(a=>timenow-a.dueBy).sort((a,b)=>a.dueBy-b.dueBy).slice(0,5).map(sch => 
+                  {schedules.sort((a,b)=>a.dueBy-b.dueBy).slice(0,5).map(sch => 
                     <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px',fontSize:'12px'}}>{sch.description}</div>
                   )
                 }
