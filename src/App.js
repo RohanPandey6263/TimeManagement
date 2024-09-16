@@ -26,14 +26,23 @@ function App() {
               <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
             </div>
             <div className= "topBox-div" style={{width:'430px', height:'100%', marginLeft:'20px',flexDirection:'column'}}>
-              <div  style={{marginTop:'10px'}}>
+              <div  style={{marginTop:'10px',height:'20px'}}>
                 Upcoming
-                <div className="lightbox-div" style={{float:'right', marginRight:'10px'}}>View Details -></div>
+                <div className="lightbox-div" style={{float:'right', marginRight:'10px',height:'20px'}}>View Details -> </div>
+                <div className="Box-div" style={{height:'80px', width:'100%', flexDirection:'row'}}>
+                  <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px'}}></div>
+                  <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px'}}></div>
+                  <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px'}}></div>
+                  <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px'}}></div>
+                  <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px'}}></div>
+                </div>
               </div>
               <div className="Box-div"></div>
             </div>
           </div> 
         </div>
+        <div className="Box-div" style={{marginTop:'30px',height:'30px',marginRight:'10px'}}>Calendar</div>
+        <div className="Box-div" style={{height:'200px', marginRight:'10px',marginTop:'10px'}}>hi</div>
       </body>
     </div>
   );
