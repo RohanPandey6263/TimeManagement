@@ -33,6 +33,16 @@
   font-size: calc(10px + 2vmin);
   color: rgb(255, 255, 255);
 }
+.topBox-div {
+  background-color: #15325e;
+  border-radius: 10px ;
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content: top;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+}
 .circle-div {
   background-color: #15325e;
   border-radius: 50% ;

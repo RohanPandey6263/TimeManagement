@@ -25,7 +25,13 @@ function App() {
               </div>
               <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
             </div>
-            <div className= "Box-div" style={{width:'430px', height:'100%', marginLeft:'20px'}}>ah</div>
+            <div className= "topBox-div" style={{width:'430px', height:'100%', marginLeft:'20px',flexDirection:'column'}}>
+              <div  style={{marginTop:'10px'}}>
+                Upcoming
+                <div className="lightbox-div" style={{float:'right', marginRight:'10px'}}>View Details -></div>
+              </div>
+              <div className="Box-div"></div>
+            </div>
           </div> 
         </div>
       </body>
