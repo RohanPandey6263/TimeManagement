@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import clocklogo from './favicon.ico';
+import axios from 'axios';
+
 function App() {
 
   const today = new Date();
@@ -8,6 +10,7 @@ function App() {
   console.log(today.toLocaleTimeString());
   const timenow = today.toLocaleTimeString();
   const schedules = fetchUpcomingSchedules();
+  //fetchUpcomingSchedulesFromServer();
   console.log(schedules);
   return (
     <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', height:'450px', width:'800px'}} className="App">
@@ -48,6 +51,7 @@ function App() {
     </div>
   );
 }
+
 function fetchUpcomingSchedules() {
   return [{description:'Physics Assignment', dueBy:new Date('September 17, 2024 03:24:00')},
     {description:'Chemistry Assignment', dueBy:new Date('December 17, 1995 03:24:00')} ,
@@ -56,5 +60,22 @@ function fetchUpcomingSchedules() {
     {description:'Math Assignment', dueBy:new Date('September 7, 2024 03:24:00')},
     {description:'Sem Assignment', dueBy:new Date('September 7, 2024 02:24:00')},
     {description:'English Assignment', dueBy:new Date('September 7, 2024 02:24:00')}];
+}
+function fetchUpcomingSchedulesFromServer() {
+  axios.get('http://localhost:8000/fetchschedules?username=Rohan')
+  .then(response => {
+    console.log(response.data);
+  })
+
+  // const xhr = new XMLHttpRequest();
+  //   xhr.open('GET', 'http://localhost:8000/fetchschedules?username=Rohan');
+  //   xhr.onload = function() {
+  //     if (xhr.status === 200) {
+  //       console.log(JSON.parse(xhr.responseText));
+  //     }
+  //   };
+  //   xhr.send();
+
+  //http://localhost:8000/fetchschedules?username=Rohan
 }
 export default App;
