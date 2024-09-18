@@ -13,40 +13,44 @@ function App() {
   //fetchUpcomingSchedulesFromServer();
   console.log(schedules);
   return (
-    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', height:'450px', width:'800px'}} className="App">
+    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', maxHeight:'500px', width:'800px'}} className="App">
       <header className="App-header" style={{marginLeft:'10px'}}>     
+        
         <img src={clocklogo} style={{height:'30px'}}> 
         </img>  
         <strong style={{marginLeft:'10px'}}>
           Time Crunch
         </strong> 
+        <div className= "rounded-div" style={{height:'20px',width:'70px',fontSize:'12px',padding:'5px',marginLeft:'470px'}}> 
+          <p>{timenow}</p>
+        </div>
       </header>
       <body style={{backgroundColor:'#2f70d1',marginLeft:'10px'}}>
-        <div style={{ display: 'flex',  height:'100px'}} >
-          <div className="lightbox-div">
+        <div style={{ display: 'flex',  height:'150px'}} >
             <div className= "lightbox-div" style={{width:'210px',flexDirection:'column'}}>
               <div className="Box-div" style={{height:'50px', width:'100%'}}>
-                <p>{timenow}</p>
+               y hello
+              </div>
+              <div style={{display:'flex',flexDirection:'row',marginTop:'5px'}}>
+               <div className="rounded-div" style={{height:'50px', width:'50px',}}></div>
               </div>
               <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
             </div>
             <div className= "topBox-div" style={{width:'430px', height:'100%', marginLeft:'20px',flexDirection:'column'}}>
               <div  style={{marginTop:'10px',height:'20px',fontSize:'17px'}}>
                 Upcoming
-                <div className="lightbox-div" style={{float:'right', marginRight:'10px',height:'20px',fontSize:'13px',padding:'5px'}}>View Details -> </div>
-                <div className="Box-div" style={{height:'80px', width:'100%', flexDirection:'row',marginTop:'15px',}}>
+                <div className="Box-div" style={{height:'80px', width:'100%', flexDirection:'row',marginTop:'10px',}}>
                   {schedules.sort((a,b)=>a.dueBy-b.dueBy).slice(0,5).map(sch => 
                     <div className="lightbox-div" style={{height:'74px',width:'76px',marginLeft:'5px',fontSize:'12px'}}>{sch.description}</div>
                   )
                 }
                 </div>
-              </div>
-              <div className="Box-div"></div>
+            
             </div>
           </div> 
         </div>
-        <div className="Box-div" style={{marginTop:'30px',height:'30px',marginRight:'10px'}}>Calendar</div>
-        <div className="Box-div" style={{height:'200px', marginRight:'10px',marginTop:'10px'}}>hi</div>
+        <div className="Box-div" style={{marginTop:'10px',height:'30px',marginRight:'10px'}}>Calendar</div>
+        <div className="Box-div" style={{height:'170px', marginRight:'10px',marginTop:'10px'}}>hi</div>
       </body>
     </div>
   );
