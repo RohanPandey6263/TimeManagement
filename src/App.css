@@ -65,6 +65,17 @@
   color: rgb(255, 255, 255);
   margin-left:10px ;
 }
+.roundednomargin-div {
+  background-color: #15325e;
+  border-radius: 1000000px ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: rgb(255, 255, 255);
+   ;
+}
 .stats-div {
   background-color: #ff8800;
   border-radius: 1000px ;

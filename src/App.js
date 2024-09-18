@@ -28,12 +28,16 @@ function App() {
       <body style={{backgroundColor:'#2f70d1',marginLeft:'10px'}}>
         <div style={{ display: 'flex',  height:'150px'}} >
             <div className= "lightbox-div" style={{width:'210px',flexDirection:'column'}}>
-              <div className="Box-div" style={{height:'50px', width:'100%'}}>
-               y hello
+              <div className="Box-div" style={{height:'50%', width:'100%'}}>y
               </div>
               <div style={{display:'flex',flexDirection:'row',marginTop:'5px'}}>
-               <div className="rounded-div" style={{height:'50px', width:'50px',}}></div>
-              </div>
+               <div className="circle-div" style={{height:'50px', width:'50px',marginLeft:'0px'}}></div>
+               <div className="circle-div" style={{height:'50px', width:'50px',}}></div>
+               <div style={{display:'flex',flexDirection:'column'}}>
+                <div className="rounded-div" style={{width:'60px',height:'25px'}}></div>
+                <div className="rounded-div" style={{width:'60px',height:'25px',marginTop:'2px'}}></div>
+               </div>
+              </div >
               <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
             </div>
             <div className= "topBox-div" style={{width:'430px', height:'100%', marginLeft:'20px',flexDirection:'column'}}>
