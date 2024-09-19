@@ -1,0 +1,14 @@
+.LayoutTest
+{
+    background-color: rgb(20, 17, 187); 
+    display: flex;
+    flex-direction: row; 
+}
+
+.TopBox
+{
+    background-color: rgb(6, 1, 19);
+    color: #f3f0f0;
+    margin: 5px;
+    flex: 1 
+}

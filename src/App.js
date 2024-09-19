@@ -2,16 +2,56 @@ import logo from './logo.svg';
 import './App.css';
 import clocklogo from './favicon.ico';
 import axios from 'axios';
-
+import { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Button,
+  View,
+  SafeAreaView,
+  Text,
+  Alert,
+} from 'react-native';
 function App() {
+  let timerOn = false;
+  function isTimerOn()
+  {
+    console.log(timerOn);
+    return timerOn;
+  }
+  const refreshTime = () => {
+    console.log(timerOn);
+    if( isTimerOn()==true)
+      {
+        setSeconds((seconds) => 
+        {
+          if(seconds > 0){
+          return seconds-1;
+          }
+          return 0;
+        });
+      }
+    setTimenow((timenow)=>{return new Date()});
+  };
+  // const today = new Date();
+  const [seconds, setSeconds] = useState(0);
+  const [timenow, setTimenow] =useState(new Date());
+  //const [timerOn, setTimerOn] = useState(true);
 
-  const today = new Date();
-  console.log(today.getTime());
-  console.log(today.toLocaleTimeString());
-  const timenow = today.toLocaleTimeString();
+  useEffect(() => {
+    const interval = setInterval(() => refreshTime(), 1000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  // console.log(today.getTime());
+  // console.log(today.toLocaleTimeString());
   const schedules = fetchUpcomingSchedules();
   //fetchUpcomingSchedulesFromServer();
   console.log(schedules);
+  function pad2(number) {
+    return (number < 10 ? '0' : '') + number
+  }
+
+
   return (
     <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', maxHeight:'500px', width:'800px'}} className="App">
       <header className="App-header" style={{marginLeft:'10px'}}>     
@@ -22,20 +62,35 @@ function App() {
           Time Crunch
         </strong> 
         <div className= "rounded-div" style={{height:'20px',width:'70px',fontSize:'12px',padding:'5px',marginLeft:'470px'}}> 
-          <p>{timenow}</p>
+          <p>{timenow.toLocaleTimeString()}</p>
         </div>
       </header>
       <body style={{backgroundColor:'#2f70d1',marginLeft:'10px'}}>
         <div style={{ display: 'flex',  height:'150px'}} >
             <div className= "lightbox-div" style={{width:'210px',flexDirection:'column'}}>
-              <div className="Box-div" style={{height:'50%', width:'100%'}}>y
+              <div className="Box-div" style={{height:'50%', width:'100%'}}> {pad2(Math.floor(seconds/60))}:{pad2(seconds%60)} 
               </div>
               <div style={{display:'flex',flexDirection:'row',marginTop:'5px'}}>
-               <div className="circle-div" style={{height:'50px', width:'50px',marginLeft:'0px'}}></div>
-               <div className="circle-div" style={{height:'50px', width:'50px',}}></div>
-               <div style={{display:'flex',flexDirection:'column'}}>
-                <div className="rounded-div" style={{width:'60px',height:'25px'}}></div>
-                <div className="rounded-div" style={{width:'60px',height:'25px',marginTop:'2px'}}></div>
+              
+                
+                <button className="circle-div" style={{height:'50px', width:'50px',marginLeft:'0px' }}  onClick={() => {
+                   timerOn = true;
+                  }}>P</button>
+                <button className="circle-div" style={{height:'50px', width:'50px'}} onClick={() => setSeconds((seconds)=>{return 0})}>R</button>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                 <button className="rounded-div" onClick={() => setSeconds((seconds)=>{
+
+                    if(seconds+60<3600){
+                      return seconds+60;
+                    } 
+                    return(3600);                    
+                  })}>+1</button>
+                 <button className="rounded-div" onClick={() => setSeconds((seconds)=>{
+                 if(0<seconds-60){
+                  return seconds-60;
+                } 
+                return(0);
+                  })}>-1</button>
                </div>
               </div >
               <div className="lightbox-div" style={{height:'50px', width:'100%'}}></div>
