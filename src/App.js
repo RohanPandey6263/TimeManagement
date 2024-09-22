@@ -59,7 +59,7 @@ function App() {
 
 
   return (
-    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', maxHeight:'500px', width:'800px'}} className="App">
+    <div style={{backgroundColor:'#2f70d1', verticalAlign:'stretch', maxHeight:'550px', width:'800px'}} className="App">
       <header className="App-header" style={{marginLeft:'10px'}}>     
         
         <img src={clocklogo} style={{height:'30px'}}> 
@@ -67,7 +67,7 @@ function App() {
         <strong style={{marginLeft:'10px',fontFamily:'Myriad Pro Regular'}}>
           Time Crunch
         </strong> 
-        <div className= "rounded-div" style={{height:'20px',width:'70px',fontSize:'12px',padding:'5px',marginLeft:'470px'}}> 
+        <div className= "rounded-div" style={{height:'20px',width:'70px',fontSize:'12px',padding:'5px',marginLeft:'470px',justifyContent:'center'}}> 
           <p>{timenow.toLocaleTimeString()}</p>
         </div>
       </header>
@@ -129,6 +129,10 @@ function App() {
             </div>
             )
           }
+        
+          </div>
+          <div  style={{display:'flex',justifyContent:'center',alignItems:'center' }}>
+            <button className='rounded-div' style={{width:'150px',height:'35px',marginBottom:'10px',justifyContent:'center',fontSize:'18px'}}>Add Task</button>
           </div>
        
       </body>
