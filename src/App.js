@@ -1,3 +1,4 @@
+import 'devextreme/dist/css/dx.light.css';
 import logo from './logo.svg';
 import './App.css';
 import clocklogo from './clockicon.png';
@@ -5,7 +6,11 @@ import playicon from './playiconn.png'
 import pauseicon from './pauseiconn.png'
 import reseticon from './reseticon.png'
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   StyleSheet,
   Button,
@@ -15,8 +20,9 @@ import {
   Alert,
 } from 'react-native';
 let timerOn = false;
+let upcomingSchedules=[];
 function App() {
- 
+  
   function isTimerOn()
   {
     console.log(timerOn);
@@ -40,8 +46,24 @@ function App() {
   console.log(today.toLocaleDateString("en-US", { weekday: 'long' }))
   const [seconds, setSeconds] = useState(0);
   const [timenow, setTimenow] =useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   //const [timerOn, setTimerOn] = useState(true);
-
+  const togglePopup = () => {
+    setDate(()=>new Date());
+    setIsOpen(!isOpen);
+    setInputValue(()=> { return ''});
+  };
+ const submitTask= () => {
+  setIsOpen(!isOpen);
+  if(inputValue!==''){submitTaskSchedules(inputValue,date);}
+  setDate(()=>new Date());
+  setInputValue(()=> { return ''});
+ };
+ const handleInputChange = (event) => {
+  setInputValue(event.target.value);
+};
   useEffect(() => {
     const interval = setInterval(() => refreshTime(), 1000);
     return () => clearInterval(interval);
@@ -132,7 +154,26 @@ function App() {
         
           </div>
           <div  style={{display:'flex',justifyContent:'center',alignItems:'center' }}>
-            <button className='rounded-div' style={{width:'150px',height:'35px',marginBottom:'10px',justifyContent:'center',fontSize:'18px'}}>Add Task</button>
+            <Popup open={isOpen} trigger={<button onClick={togglePopup} className='rounded-div' style={{width:'150px',height:'35px',marginBottom:'10px',justifyContent:'center',fontSize:'18px'}}>Add Task</button>} position="top center">
+              <div style={{height:'200px', backgroundColor:'white', width:'500px',marginLeft:'-150px',marginTop:'-100px',borderRadius:'40px',justifyContent:'center'}}>
+                <div style={{height:'10px'}}></div>
+                <div  style={{justifyContent:'center',width:'100px',marginLeft:'210px',fontSize:'23px'}}>Add Task</div>
+                <div style={{marginLeft:'10px'}}>Description</div>
+                <input value={inputValue} onChange={handleInputChange} style={{marginLeft:'10px'}} type='text'/>
+                <div style={{marginLeft:'10px'}}>dueBy</div>
+                <div style={{display:'flex',flexDirection:'row'}}>
+                
+                <div style={{marginLeft:'10px'}}>
+                  <DatePicker  selected={date} onChange={(date) => setDate(date)} 
+                    minDate={new Date()}/>
+                </div>
+                <button onClick={submitTask} className='Box-div' style={{height:'25px', marginLeft:'130px',width:'70px'}}>save</button>
+               
+                <button onClick={togglePopup} className='Box-div' style={{height:'25px', marginLeft:'10px'}}>cancel </button>
+                </div>
+              </div>
+            </Popup>
+            
           </div>
        
       </body>
@@ -164,14 +205,18 @@ function fetchUpcomingdays() {
       {dotw:day6.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day6.getDate() },
       {dotw:day7.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day7.getDate()}];
   }
+function submitTaskSchedules( _description, _date  ) { 
+  upcomingSchedules.push({description:_description, dueBy:_date});
+}
 function fetchUpcomingSchedules() {
-  return [{description:'Physics Assignment', dueBy:new Date('September 17, 2024 03:24:00')},
-    {description:'Chemistry Assignment', dueBy:new Date('December 17, 1995 03:24:00')} ,
-    {description:'CS Assignment', dueBy:new Date('September 25, 2024 03:24:00')},
-    {description:'Biology Assignment', dueBy:new Date('September 4, 2024 03:24:00')},
-    {description:'Math Assignment', dueBy:new Date('September 7, 2024 03:24:00')},
-    {description:'Sem Assignment', dueBy:new Date('September 7, 2024 02:24:00')},
-    {description:'English Assignment', dueBy:new Date('September 7, 2024 02:24:00')}];
+  return upcomingSchedules;
+  // return [{description:'Physics Assignment', dueBy:new Date('September 17, 2024 03:24:00')},
+  //   {description:'Chemistry Assignment', dueBy:new Date('December 17, 1995 03:24:00')} ,
+  //   {description:'CS Assignment', dueBy:new Date('September 25, 2024 03:24:00')},
+  //   {description:'Biology Assignment', dueBy:new Date('September 4, 2024 03:24:00')},
+  //   {description:'Math Assignment', dueBy:new Date('September 7, 2024 03:24:00')},
+  //   {description:'Sem Assignment', dueBy:new Date('September 7, 2024 02:24:00')},
+  //   {description:'English Assignment', dueBy:new Date('September 7, 2024 02:24:00')}];
 }
 function fetchUpcomingSchedulesFromServer() {
   axios.get('http://localhost:8000/fetchschedules?username=Rohan')
