@@ -148,6 +148,9 @@ function App() {
             <div className="topBox-div" style={{height:'95%',width:'105px',marginLeft:'5px',fontSize:'12px',display:'flex',flexDirection:'column'}}>
               <div style={{marginTop:'10px'}}>{day.dotw}</div>
               <div>{day.dotm}</div>
+              <div style={{marginTop:'10px'}}>{day.tasks.slice(0,4).map(task=>
+                <div style={{marginTop:'5px'}}>{task.description}</div>
+              )}</div>
             </div>
             )
           }
@@ -181,8 +184,17 @@ function App() {
   );
 }
 
+function filtertasks(schedule,date){
+   if(schedule.dueBy.getDate()==date.getDate()){
+    return true;
+   }
+   return false;
+
+}
+
 function fetchUpcomingdays() {
   const day1 = new Date();
+  const taskOne = upcomingSchedules.filter(schedule=> filtertasks(schedule,day1));
   const day2 = new Date();
   day2.setDate(day1.getDate()+1)
   const day3 = new Date();
@@ -197,13 +209,13 @@ function fetchUpcomingdays() {
   day7.setDate(day1.getDate()+6)
   
     return [
-      {dotw:day1.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day1.getDate()},
-      {dotw:day2.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day2.getDate()} ,
-      {dotw:day3.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day3.getDate()},
-      {dotw:day4.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day4.getDate()},
-      {dotw:day5.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day5.getDate() },
-      {dotw:day6.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day6.getDate() },
-      {dotw:day7.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day7.getDate()}];
+      {dotw:day1.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day1.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day1))},
+      {dotw:day2.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day2.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day2))} ,
+      {dotw:day3.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day3.getDate(), tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day3))},
+      {dotw:day4.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day4.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day4))},
+      {dotw:day5.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day5.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day5)) },
+      {dotw:day6.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day6.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day6)) },
+      {dotw:day7.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day7.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day7))}];
   }
 function submitTaskSchedules( _description, _date  ) { 
   upcomingSchedules.push({description:_description, dueBy:_date});
