@@ -1,5 +1,4 @@
 import 'devextreme/dist/css/dx.light.css';
-import logo from './logo.svg';
 import './App.css';
 import clocklogo from './clockicon.png';
 import playicon from './playiconn.png'
@@ -11,14 +10,6 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  StyleSheet,
-  Button,
-  View,
-  SafeAreaView,
-  Text,
-  Alert,
-} from 'react-native';
 let timerOn = false;
 let upcomingSchedules=[];
 let useLocal = false;
@@ -52,7 +43,6 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [schedules, setSchedules] = useState([]);
   const [days, setDays] = useState([]);
-  //const [timerOn, setTimerOn] = useState(true);
   const togglePopup = () => {
     setDate(()=>new Date());
     setIsOpen(!isOpen);
@@ -89,13 +79,6 @@ function App() {
    return () => clearInterval(interval);
    
   }, []);
-  
-  // console.log(today.getTime());
-  // console.log(today.toLocaleTimeString());
-  
-  //fetchUpcomingSchedulesFromServer();
-  
-  
   function pad2(number) {
     return (number < 10 ? '0' : '') + number
   }
@@ -268,7 +251,6 @@ function App() {
     {
      console.log(response.data);
      let arraaySchedules=response.data.map(x => {
-     //let dateArray='/\d{4}-\d{2}-\d{2}/'.exec(x.date)
        return {
          description:x.description, dueBy:new Date(x.dueBy)
        };
