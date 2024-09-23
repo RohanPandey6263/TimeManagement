@@ -21,15 +21,17 @@ import {
 } from 'react-native';
 let timerOn = false;
 let upcomingSchedules=[];
+let useLocal = false;
+const username="rohan"
 function App() {
   
   function isTimerOn()
   {
-    console.log(timerOn);
+    
     return timerOn;
   }
   const refreshTime = () => {
-    console.log(timerOn);
+    
     if( isTimerOn()==true)
       {
         setSeconds((seconds) => 
@@ -43,12 +45,13 @@ function App() {
     setTimenow((timenow)=>{return new Date()});
   };
   const today = new Date();
-  console.log(today.toLocaleDateString("en-US", { weekday: 'long' }))
   const [seconds, setSeconds] = useState(0);
   const [timenow, setTimenow] =useState(new Date());
   const [date, setDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [schedules, setSchedules] = useState([]);
+  const [days, setDays] = useState([]);
   //const [timerOn, setTimerOn] = useState(true);
   const togglePopup = () => {
     setDate(()=>new Date());
@@ -57,7 +60,16 @@ function App() {
   };
  const submitTask= () => {
   setIsOpen(!isOpen);
-  if(inputValue!==''){submitTaskSchedules(inputValue,date);}
+  if(inputValue!==''){
+    if(useLocal)
+    {
+      submitTaskSchedules(inputValue,date);
+    }
+    else{
+      submitTaskSchedulesBackEnd(inputValue,date);
+    }
+  }
+
   setDate(()=>new Date());
   setInputValue(()=> { return ''});
  };
@@ -66,15 +78,24 @@ function App() {
 };
   useEffect(() => {
     const interval = setInterval(() => refreshTime(), 1000);
-    return () => clearInterval(interval);
+    if(useLocal)
+      {
+        fetchUpcomingSchedules();
+      }
+      else{
+        fetchUpcomingSchedulesFromServer();
+      }
+   
+   return () => clearInterval(interval);
+   
   }, []);
   
   // console.log(today.getTime());
   // console.log(today.toLocaleTimeString());
-  const days = fetchUpcomingdays();
+  
   //fetchUpcomingSchedulesFromServer();
-  console.log(days);
-  const schedules = fetchUpcomingSchedules();
+  
+  
   function pad2(number) {
     return (number < 10 ? '0' : '') + number
   }
@@ -149,7 +170,7 @@ function App() {
               <div style={{marginTop:'10px'}}>{day.dotw}</div>
               <div>{day.dotm}</div>
               <div style={{marginTop:'10px'}}>{day.tasks.slice(0,4).map(task=>
-                <div style={{marginTop:'5px'}}>{task.description}</div>
+                <div className="lightbox-div" style={{marginTop:'5px',height:'20px', marginLeft:'3px',marginRight:'3px',fontSize:'10px',fontFamily:'Brush Script MT',borderRadius:'5px'}}>{task.description}</div>
               )}</div>
             </div>
             )
@@ -182,69 +203,87 @@ function App() {
       </body>
     </div>
   );
+
+
+  function filtertasks(schedule,date){
+    if(schedule.dueBy.getDate()==date.getDate()){
+     return true;
+    }
+    return false;
+ 
+ }
+ 
+ function fetchUpcomingdays(schedules) {
+   const day1 = new Date();
+   const day2 = new Date();
+   day2.setDate(day1.getDate()+1)
+   const day3 = new Date();
+   day3.setDate(day1.getDate()+2)
+   const day4 = new Date();
+   day4.setDate(day1.getDate()+3)
+   const day5 = new Date();
+   day5.setDate(day1.getDate()+4)
+   const day6 = new Date();
+   day6.setDate(day1.getDate()+5)
+   const day7 = new Date();
+   day7.setDate(day1.getDate()+6)
+   
+     let days =[
+       {dotw:day1.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day1.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day1))},
+       {dotw:day2.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day2.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day2))} ,
+       {dotw:day3.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day3.getDate(), tasks:schedules.filter(schedule=> filtertasks(schedule,day3))},
+       {dotw:day4.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day4.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day4))},
+       {dotw:day5.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day5.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day5)) },
+       {dotw:day6.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day6.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day6)) },
+       {dotw:day7.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day7.getDate(),tasks:schedules.filter(schedule=> filtertasks(schedule,day7))}];
+   
+       setDays(()=> days );
+   
 }
 
-function filtertasks(schedule,date){
-   if(schedule.dueBy.getDate()==date.getDate()){
-    return true;
-   }
-   return false;
+
+ function submitTaskSchedules( _description, _date  ) { 
+   upcomingSchedules.push({description:_description, dueBy:_date});
+   fetchUpcomingSchedules();
+ }
+
+ function submitTaskSchedulesBackEnd(_description, _date){
+   {
+     axios.get('http://localhost:8000/createschedule?username='+username+'&description='+_description+'&dom='+_date.getDate()+'&moy='+_date.getMonth()+'&year='+_date.getFullYear())
+     .then(response => {
+       console.log(response.data);
+       fetchUpcomingSchedulesFromServer();
+     })
+ }}
+
+ function fetchUpcomingSchedules() { 
+   setSchedules(()=> upcomingSchedules);
+   fetchUpcomingdays(upcomingSchedules);
+ }
+
+ function fetchUpcomingSchedulesFromServer() {
+   axios.get('http://localhost:8000/fetchschedules?username=' + username)
+   .then(response => {
+    if(response.data)
+    {
+     console.log(response.data);
+     let arraaySchedules=response.data.map(x => {
+     //let dateArray='/\d{4}-\d{2}-\d{2}/'.exec(x.date)
+       return {
+         description:x.description, dueBy:new Date(x.dueBy)
+       };
+     });
+     console.log(arraaySchedules);
+      setSchedules(()=> arraaySchedules);
+      fetchUpcomingdays(arraaySchedules);
+    }
+      
+   })
+ }
+
+
 
 }
 
-function fetchUpcomingdays() {
-  const day1 = new Date();
-  const taskOne = upcomingSchedules.filter(schedule=> filtertasks(schedule,day1));
-  const day2 = new Date();
-  day2.setDate(day1.getDate()+1)
-  const day3 = new Date();
-  day3.setDate(day1.getDate()+2)
-  const day4 = new Date();
-  day4.setDate(day1.getDate()+3)
-  const day5 = new Date();
-  day5.setDate(day1.getDate()+4)
-  const day6 = new Date();
-  day6.setDate(day1.getDate()+5)
-  const day7 = new Date();
-  day7.setDate(day1.getDate()+6)
-  
-    return [
-      {dotw:day1.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day1.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day1))},
-      {dotw:day2.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day2.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day2))} ,
-      {dotw:day3.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day3.getDate(), tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day3))},
-      {dotw:day4.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day4.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day4))},
-      {dotw:day5.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day5.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day5)) },
-      {dotw:day6.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day6.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day6)) },
-      {dotw:day7.toLocaleDateString("en-US", { weekday: 'long' }), dotm:day7.getDate(),tasks:upcomingSchedules.filter(schedule=> filtertasks(schedule,day7))}];
-  }
-function submitTaskSchedules( _description, _date  ) { 
-  upcomingSchedules.push({description:_description, dueBy:_date});
-}
-function fetchUpcomingSchedules() {
-  return upcomingSchedules;
-  // return [{description:'Physics Assignment', dueBy:new Date('September 17, 2024 03:24:00')},
-  //   {description:'Chemistry Assignment', dueBy:new Date('December 17, 1995 03:24:00')} ,
-  //   {description:'CS Assignment', dueBy:new Date('September 25, 2024 03:24:00')},
-  //   {description:'Biology Assignment', dueBy:new Date('September 4, 2024 03:24:00')},
-  //   {description:'Math Assignment', dueBy:new Date('September 7, 2024 03:24:00')},
-  //   {description:'Sem Assignment', dueBy:new Date('September 7, 2024 02:24:00')},
-  //   {description:'English Assignment', dueBy:new Date('September 7, 2024 02:24:00')}];
-}
-function fetchUpcomingSchedulesFromServer() {
-  axios.get('http://localhost:8000/fetchschedules?username=Rohan')
-  .then(response => {
-    console.log(response.data);
-  })
 
-  // const xhr = new XMLHttpRequest();
-  //   xhr.open('GET', 'http://localhost:8000/fetchschedules?username=Rohan');
-  //   xhr.onload = function() {
-  //     if (xhr.status === 200) {
-  //       console.log(JSON.parse(xhr.responseText));
-  //     }
-  //   };
-  //   xhr.send();
-
-  //http://localhost:8000/fetchschedules?username=Rohan
-}
 export default App;
