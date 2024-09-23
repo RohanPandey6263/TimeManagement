@@ -277,6 +277,9 @@ function App() {
       setSchedules(()=> arraaySchedules);
       fetchUpcomingdays(arraaySchedules);
     }
+    else{
+      fetchUpcomingdays([]);
+    }
       
    })
  }
